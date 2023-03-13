@@ -1,19 +1,68 @@
-var number = 0;
+// var myInputValue;
 
-var increase = () => {
-    number++;
-    console.log("number", number)
+// var allItem = [];
+
+// $("").toggle()
+
+// var handelInputChange = (e) => {
+//     myInputValue = e.target.value
+// }
+
+// var handelFormsSubmit = (e) => {
+//     e.preventDefault();
+//     allItem.push(myInputValue)
+//     console.log(allItem)
+//     e.target.elements[0].value = "";
+//     render()
+// }
+
+
+// function render() {
+
+//     let content = (
+//         <div>
+
+//             <form onSubmit={handelFormsSubmit} >
+//                 <input type="text" onChange={handelInputChange} />
+//                 <input type="submit" />
+//             </form>
+
+//             <ul>
+//                 {
+//                     allItem.length ? allItem.map((item) => <li> {item} </li>) : ""
+//                 }
+
+//             </ul>
+
+//         </div>
+//     )
+
+//     ReactDOM.render(content, document.getElementById("app"))
+
+// }
+// render()
+
+let toggle = false
+
+var toggleText = () => {
+    toggle = !toggle
     render()
 }
 
 function render() {
-    var ele = (
-        <div>
-            the number {number}
-            <button onClick={increase}> add one </button>
-        </div>
-    );
+    console.log(toggle)
 
-    ReactDOM.render(ele, document.getElementById("app"))
+    let content = (
+        <div>
+
+            <button onClick={toggleText}> toggle text </button>
+            {
+                toggle ? <p> this is text </p> : ""
+            }
+        </div>
+    )
+
+    ReactDOM.render(content, document.getElementById("app"))
+
 }
-render();
+render()
