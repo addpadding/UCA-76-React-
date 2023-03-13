@@ -1,68 +1,57 @@
-// var myInputValue;
+// 79
 
-// var allItem = [];
+// components
 
-// $("").toggle()
+class App extends React.Component {
+    render() {
+        return (
+            <div className="app">
+                app
 
-// var handelInputChange = (e) => {
-//     myInputValue = e.target.value
-// }
+                <Header />
+                <ListItems />
+                <AddItem />
 
-// var handelFormsSubmit = (e) => {
-//     e.preventDefault();
-//     allItem.push(myInputValue)
-//     console.log(allItem)
-//     e.target.elements[0].value = "";
-//     render()
-// }
-
-
-// function render() {
-
-//     let content = (
-//         <div>
-
-//             <form onSubmit={handelFormsSubmit} >
-//                 <input type="text" onChange={handelInputChange} />
-//                 <input type="submit" />
-//             </form>
-
-//             <ul>
-//                 {
-//                     allItem.length ? allItem.map((item) => <li> {item} </li>) : ""
-//                 }
-
-//             </ul>
-
-//         </div>
-//     )
-
-//     ReactDOM.render(content, document.getElementById("app"))
-
-// }
-// render()
-
-let toggle = false
-
-var toggleText = () => {
-    toggle = !toggle
-    render()
+            </div>
+        )
+    }
 }
 
-function render() {
-    console.log(toggle)
+class Header extends React.Component {
+    render() {
+        return <header> Header </header>
+    }
+}
 
-    let content = (
-        <div>
+class ListItems extends React.Component {
+    render() {
+        return <div>
+            List Items Component ===
 
-            <button onClick={toggleText}> toggle text </button>
-            {
-                toggle ? <p> this is text </p> : ""
-            }
+            <Item />
+            <Item />
+            <Item />
+            <Item />
+
         </div>
-    )
-
-    ReactDOM.render(content, document.getElementById("app"))
-
+    }
 }
-render()
+
+class Item extends React.Component {
+    render() {
+        return <div>Item</div>
+    }
+}
+
+class AddItem extends React.Component {
+    render() {
+        return (
+            <form>
+                <input type="text" />
+                <input type="submit" />
+            </form>
+        )
+    }
+}
+
+ReactDOM.render(<App />, document.getElementById("app"))
