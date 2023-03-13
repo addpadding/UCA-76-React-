@@ -18,19 +18,40 @@ var App = function (_React$Component) {
     function App() {
         _classCallCheck(this, App);
 
-        return _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).apply(this, arguments));
+        // inherit
+        var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this));
+
+        _this.state = {
+            name: "---app comp---",
+            title: "---some bla bla---"
+        };
+
+        _this.changeTitle = function () {
+            _this.setState({
+                title: "new title"
+            });
+        };
+
+        return _this;
     }
 
     _createClass(App, [{
         key: "render",
         value: function render() {
+            console.log(this); // App
+
             return React.createElement(
                 "div",
                 { className: "app" },
                 "app",
-                React.createElement(Header, null),
-                React.createElement(ListItems, null),
-                React.createElement(AddItem, null)
+                React.createElement("br", null),
+                this.state.title,
+                React.createElement(
+                    "button",
+                    { onClick: this.changeTitle },
+                    "change"
+                ),
+                React.createElement(AddItem, { name: "add" })
             );
         }
     }]);
@@ -44,7 +65,12 @@ var Header = function (_React$Component2) {
     function Header() {
         _classCallCheck(this, Header);
 
-        return _possibleConstructorReturn(this, (Header.__proto__ || Object.getPrototypeOf(Header)).apply(this, arguments));
+        var _this2 = _possibleConstructorReturn(this, (Header.__proto__ || Object.getPrototypeOf(Header)).call(this));
+
+        _this2.state = {
+            name: "---Header comp---"
+        };
+        return _this2;
     }
 
     _createClass(Header, [{
@@ -53,7 +79,8 @@ var Header = function (_React$Component2) {
             return React.createElement(
                 "header",
                 null,
-                " Header "
+                "header",
+                this.props.item
             );
         }
     }]);
@@ -77,9 +104,7 @@ var ListItems = function (_React$Component3) {
                 "div",
                 null,
                 "List Items Component ===",
-                React.createElement(Item, null),
-                React.createElement(Item, null),
-                React.createElement(Item, null),
+                this.props.myTitle,
                 React.createElement(Item, null)
             );
         }
@@ -117,16 +142,32 @@ var AddItem = function (_React$Component5) {
     function AddItem() {
         _classCallCheck(this, AddItem);
 
-        return _possibleConstructorReturn(this, (AddItem.__proto__ || Object.getPrototypeOf(AddItem)).apply(this, arguments));
+        var _this5 = _possibleConstructorReturn(this, (AddItem.__proto__ || Object.getPrototypeOf(AddItem)).call(this));
+
+        _this5.state = {
+            name: "test"
+        };
+
+        _this5.changeValue = function (e) {
+            console.log(e.target.value);
+            _this5.setState({
+                name: e.target.value
+            });
+        };
+
+        return _this5;
     }
 
     _createClass(AddItem, [{
         key: "render",
         value: function render() {
+            console.log(this); // AddItem
+
             return React.createElement(
                 "form",
                 null,
-                React.createElement("input", { type: "text" }),
+                this.state.name,
+                React.createElement("input", { type: "text", onChange: this.changeValue }),
                 React.createElement("input", { type: "submit" })
             );
         }
