@@ -1,119 +1,69 @@
-// 79
+// 82
 
-// components
-
+// StateFull components
 class App extends React.Component {
     constructor() {
-        super()
+        super();
         this.state = {
-            products: [],
-            item: ""
+            name: "",
+            option: "",
+            submit: false
         }
-
-        // this.changeInputVal = (e) => {
-        //     this.setState({
-        //         item: e.target.value
-        //     })
-        // }
-
-        this.changeInputVal = this.changeInputVal.bind(this);
-
-        this.submitForm = (e) => {
-            e.preventDefault();
-            let products = [...this.state.products, {
-                id: Math.random(),
-                name: this.state.item
-            }];
-            this.setState({
-                products,
-                item: ""
-            })
-        }
-
-        this.deleteItem = (id) => {
-            let products = [...this.state.products]
-            console.log(id);
-
-            let newProducts = products.filter((product) => product.id != id) // true
-            this.setState({
-                products: newProducts
-            })
-        }
+        this.handleChange = this.handleChange.bind(this)
+        this.handleSubmit = this.handleSubmit.bind(this)
     }
 
-    changeInputVal(e) {
+    handleChange(e) {
+        console.log(e.target.id)
         this.setState({
-            item: e.target.value
+            [e.target.id]: e.target.value,
+            submit: false
+        })
+    }
+
+    handleSubmit(e) {
+        e.preventDefault()
+        this.setState({
+            submit: true
         })
     }
 
     render() {
+        // console.log(this.state);
         return (
             <div className="app">
-                <Header />
 
-                <ListItems products={this.state.products} removeItem={this.deleteItem} />
+                <form onSubmit={this.handleSubmit} >
+                    <input type="text" onChange={this.handleChange} id="name" />
 
-                <AddItem
-                    changeInput={this.changeInputVal}
-                    saveData={this.submitForm}
-                    item={this.state.item}
-                />
+                    <select onChange={this.handleChange} id="option" >
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                    </select>
+
+                    <input type="submit" />
+
+                    {this.state.submit && <div>
+                        {this.state.name}
+                        {this.state.option}
+                    </div>}
+                </form>
 
             </div>
         )
     }
 }
 
-class Header extends React.Component {
-    render() {
-        return <header> Header </header>
-    }
+// StateLess
+const Item = () => {
+    return (
+        <div>
+            item function comp
+        </div>
+    )
 }
 
-class ListItems extends React.Component {
-    render() {
-        return (
-            <div>
-                {this.props.products.length == 0 && <div>There no items</div>}
-                {
-                    this.props.products.map((product) =>
-                        <Item
-                            id={product.id}
-                            item={product.name}
-                            removeItem={this.props.removeItem}
-                        />)
-                }
-            </div>
-        )
-    }
-}
 
-class Item extends React.Component {
-    render() {
-        return <div> {this.props.item}
-            <button onClick={() => this.props.removeItem(this.props.id)}>
-                Delete
-            </button>
-        </div >
-    }
-}
-
-class AddItem extends React.Component {
-    render() {
-        return (
-            <form onSubmit={this.props.saveData}>
-                <input type="text" onChange={this.props.changeInput} value={this.props.item} />
-                <input type="submit" />
-            </form>
-        )
-    }
-}
-
-class Footer extends React.Component {
-    render() {
-        return <footer> Footer </footer>
-    }
-}
 
 ReactDOM.render(<App />, document.getElementById("app"))
