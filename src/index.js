@@ -3,39 +3,62 @@
 // components
 
 class App extends React.Component {
-
     constructor() {
-        super() // inherit
+        super()
         this.state = {
-            name: "---app comp---",
-            title: "---some bla bla---"
+            products: [],
+            item: ""
         }
 
-        this.changeTitle = () => {
+        // this.changeInputVal = (e) => {
+        //     this.setState({
+        //         item: e.target.value
+        //     })
+        // }
+
+        this.changeInputVal = this.changeInputVal.bind(this);
+
+        this.submitForm = (e) => {
+            e.preventDefault();
+            let products = [...this.state.products, {
+                id: Math.random(),
+                name: this.state.item
+            }];
             this.setState({
-                title: "new title"
+                products,
+                item: ""
             })
         }
 
+        this.deleteItem = (id) => {
+            let products = [...this.state.products]
+            console.log(id);
+
+            let newProducts = products.filter((product) => product.id != id) // true
+            this.setState({
+                products: newProducts
+            })
+        }
+    }
+
+    changeInputVal(e) {
+        this.setState({
+            item: e.target.value
+        })
     }
 
     render() {
-        console.log(this); // App
-
         return (
             <div className="app">
-                app
-                <br />
+                <Header />
 
-                {this.state.title}
-                <button onClick={this.changeTitle} >change</button>
+                <ListItems products={this.state.products} removeItem={this.deleteItem} />
 
-                {/* {this.state.name} */}
-                {/* <h1>{this.state.title}</h1> */}
-
-                {/* <Header item={this.state.name} /> */}
-                {/* <ListItems pro="c_______c" myTitle={this.state.title} /> */}
-                <AddItem name="add" />
+                <AddItem
+                    changeInput={this.changeInputVal}
+                    saveData={this.submitForm}
+                    item={this.state.item}
+                />
 
             </div>
         )
@@ -43,77 +66,53 @@ class App extends React.Component {
 }
 
 class Header extends React.Component {
-
-    constructor() {
-        super();
-        this.state = {
-            name: "---Header comp---",
-        }
-    }
-
     render() {
-        return <header>
-            header
-
-            {this.props.item}
-
-            {/* {this.props.test} */}
-            {/* <p> {this.state.name} </p> */}
-
-        </header>
+        return <header> Header </header>
     }
 }
 
 class ListItems extends React.Component {
     render() {
-        return <div>
-            List Items Component ===
-
-            {this.props.myTitle}
-            {/* {this.props.pro} */}
-
-            <Item />
-
-        </div>
+        return (
+            <div>
+                {this.props.products.length == 0 && <div>There no items</div>}
+                {
+                    this.props.products.map((product) =>
+                        <Item
+                            id={product.id}
+                            item={product.name}
+                            removeItem={this.props.removeItem}
+                        />)
+                }
+            </div>
+        )
     }
 }
 
 class Item extends React.Component {
     render() {
-        return <div>Item</div>
+        return <div> {this.props.item}
+            <button onClick={() => this.props.removeItem(this.props.id)}>
+                Delete
+            </button>
+        </div >
     }
 }
 
 class AddItem extends React.Component {
-
-    constructor() {
-        super()
-
-        this.state = {
-            name: "test"
-        }
-
-        this.changeValue = (e) => {
-            console.log(e.target.value)
-            this.setState({
-                name: e.target.value
-            })
-        }
-
-    }
-
     render() {
-        console.log(this); // AddItem
-
         return (
-            <form>
-
-                {this.state.name}
-
-                <input type="text" onChange={this.changeValue} />
+            <form onSubmit={this.props.saveData}>
+                <input type="text" onChange={this.props.changeInput} value={this.props.item} />
                 <input type="submit" />
             </form>
         )
+    }
+}
+
+class Footer extends React.Component {
+    render() {
+        return <footer> Footer </footer>
     }
 }
 
